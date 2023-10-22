@@ -1,0 +1,32 @@
+@import "@/styles/variables";
+@import "@/styles/mixins";
+@import "@/styles/typography";
+
+.input-element {
+    @extend .body-text;
+    color: $dark-color;
+    flex: 1 0 0;
+    @include border-radius(10px);
+    &.md {
+        padding: 10px 16px;
+        @include font(16px, 400, 1.5);
+    }
+
+    &.secondary {
+        border: 1px solid $light-color;
+        background: $light-color;
+        &.invalid-error {
+            color: $primary-color;
+            border: 1px solid $primary-color;
+        }
+    }
+
+    &.primary {
+        border: 1px solid $secondary-color;
+        background: $white-color;
+        &.invalid-error {
+            color: $primary-color;
+            border: 1px solid $primary-color;
+        }
+    }
+}

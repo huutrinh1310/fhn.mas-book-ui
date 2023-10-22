@@ -1,0 +1,30 @@
+@mixin size($width, $height) {
+    width: $width;
+    height: $height;
+}
+
+@mixin sizeMin($width, $height) {
+    min-width: $width;
+    min-height: $height;
+}
+
+@mixin flex($direction, $justify, $align) {
+    display: flex;
+    flex-direction: $direction;
+    justify-content: $justify;
+    align-items: $align;
+}
+
+@mixin font($size, $weight, $line: null) {
+    font-size: $size;
+    font-weight: $weight;
+    line-height: $line;
+}
+
+@mixin transition($property, $duration, $timing) {
+    transition: $property $duration $timing;
+}
+
+@mixin border-radius($all: null, $tl: $all, $tr: $all, $br: $all, $bl: $all) {
+    border-radius: $tl $tr $br $bl;
+}

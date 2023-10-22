@@ -1,0 +1,90 @@
+@import "@/styles/variables";
+@import "@/styles/mixins";
+
+%sidebar-icon {
+    border-radius: 10px;
+    width: 46px;
+    height: 46px;
+    flex-shrink: 0;
+    @include flex(row, center, center);
+    color: $secondary-color;
+}
+
+.logo {
+    text-align: center;
+    display: inline-block;
+    align-self: center;
+    @include font(18px, 700, 1.5);
+    text-transform: uppercase;
+    padding: 10px 0;
+}
+.sidebar {
+    @include flex(column, flex-start, center);
+    min-width: 80px;
+    width: 80px;
+    flex-shrink: 0;
+    align-self: stretch;
+    padding: 18px 10px;
+    gap: 20px;
+    background-color: $white-color;
+
+    &-item {
+        @include flex(row, center, center);
+        gap: 10px;
+        cursor: pointer;
+        @include border-radius(10px);
+        > .sidebar-icon {
+            @extend %sidebar-icon;
+        }
+        > span {
+            display: none;
+        }
+
+        &.active {
+            background-color: $primary-color;
+            > .sidebar-icon {
+                color: $white-color;
+            }
+        }
+
+        &:hover {
+            background-color: lighten($color: $primary-color, $amount: 10);
+
+            > .sidebar-icon {
+                color: $white-color;
+            }
+        }
+    }
+
+    &-open {
+        width: 200px;
+        align-items: flex-start;
+        .sidebar-item {
+            @include flex(row, flex-start, center);
+            gap: 10px;
+            width: 100%;
+            cursor: pointer;
+            &.sidebar-icon {
+                @extend %sidebar-icon;
+            }
+            > span {
+                display: inline-block;
+            }
+            &.active {
+                background-color: $primary-color;
+                > .sidebar-icon {
+                    color: $white-color;
+                }
+            }
+        }
+        .sidebar-items {
+            align-items: flex-start;
+            width: 100%;
+        }
+    }
+
+    &-items {
+        @include flex(column, center, center);
+        gap: 20px;
+    }
+}

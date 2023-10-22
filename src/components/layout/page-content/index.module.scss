@@ -1,0 +1,12 @@
+@import "@/styles/mixins";
+@import "@/styles/variables";
+
+.content {
+    flex: 1;
+    @include border-radius(30px);
+    @include flex(column, unset, flex-start);
+    align-self: stretch;
+    padding: 40px 50px;
+    gap: 30px;
+    background-color: $light-color;
+}

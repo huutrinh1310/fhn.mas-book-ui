@@ -1,0 +1,80 @@
+@import "@/styles/variables";
+@import "@/styles/mixins";
+
+.btn {
+    background: transparent;
+    display: inline-flex;
+    border: transparent;
+    gap: 10px;
+    align-items: center;
+    border-radius: 10px;
+    letter-spacing: 0.1px;
+
+    &.btn-normal {
+        padding: 12px 30px;
+        @include font(16px, 500, $lh-base);
+        text-align: center;
+    }
+    &.btn-medium {
+        padding: 12px 30px;
+        @include font(18px, 500, $lh-md);
+        text-align: center;
+    }
+    &.btn-small {
+        padding: 12px 30px;
+        @include font(18px, 500, $lh-sm);
+        text-align: center;
+    }
+
+    &.btn-main {
+        background-color: $primary-color;
+        color: $white-color;
+
+        &:hover {
+            background-color: darken($primary-color, 10%);
+        }
+
+        &:active {
+            background-color: darken($primary-color, 20%);
+        }
+
+        &:disabled {
+            background-color: $secondary-color;
+            color: $light-color;
+        }
+    }
+
+    &.btn-secondary {
+        background-color: $secondary-color;
+        color: $light-color;
+        border: 1px solid $border-color;
+
+        &:hover {
+            background-color: darken($secondary-color, 10%);
+        }
+
+        &:active {
+            background-color: darken($secondary-color, 20%);
+        }
+
+        &:disabled {
+            background-color: $secondary-color;
+            color: $light-color;
+        }
+    }
+    &.btn-tertiary {
+        background-color: $light-color;
+        color: $dark-color;
+        &:hover {
+            background-color: darken($light-color, 10%);
+        }
+        &:active {
+            background-color: darken($light-color, 20%);
+        }
+
+        &:disabled {
+            background-color: $secondary-color;
+            color: $light-color;
+        }
+    }
+}
