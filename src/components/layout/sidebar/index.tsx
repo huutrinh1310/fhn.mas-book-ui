@@ -1,3 +1,4 @@
+import { NavLink } from "react-router-dom";
 import styles from "./index.module.scss";
 
 export interface ISidebarProps {
@@ -12,7 +13,9 @@ export default function Sidebar({ children, open }: ISidebarProps) {
 
   return (
     <aside className={classnames}>
-      <span className={styles.logo}>Logo</span>
+      <NavLink to="/" className={styles.logo}>
+        Logo
+      </NavLink>
       <ul className={styles["sidebar-items"]}>{children}</ul>
     </aside>
   );

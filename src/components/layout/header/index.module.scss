@@ -18,11 +18,23 @@
 
 .users {
     @include flex(row, center, center);
-    gap: 10px;
+    gap: 40px;
     margin-left: 10px;
     .icon {
         @include size(25px, 25px);
         color: $secondary-color;
+        position: relative;
+        &::before {
+            content: "3";
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            @include size(20px, 20px);
+            color: $white-color;
+            background-color: $primary-color;
+            @include border-radius(50%);
+            @include flex(row, center, center);
+        }
     }
 
     &__information {

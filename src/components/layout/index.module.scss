@@ -2,8 +2,17 @@
 @import "@/styles/mixins";
 @import "@/styles/typography";
 
-.pageContent {
+%sidebar-icon {
+    border-radius: 10px;
+    width: 46px;
+    height: 46px;
+    flex-shrink: 0;
     @include flex(row, center, center);
+    color: $secondary-color;
+}
+
+.pageContent {
+    @include flex(row, center, flex-start);
 }
 
 .pageContentRight {
@@ -12,4 +21,71 @@
     flex: 1;
     min-height: 100vh;
     padding-right: 30px;
+}
+
+.sidebar {
+    &-item {
+        @include flex(row, center, center);
+        gap: 10px;
+        cursor: pointer;
+
+        @include border-radius(10px);
+        > .sidebar-icon {
+            @extend %sidebar-icon;
+        }
+        > span {
+            display: none;
+        }
+
+        &.active {
+            background-color: $primary-color;
+            > .sidebar-icon {
+                color: $white-color;
+            }
+        }
+
+        &:hover {
+            background-color: lighten($color: $primary-color, $amount: 10);
+
+            > .sidebar-icon {
+                color: $white-color;
+            }
+        }
+    }
+
+    &-open {
+        width: 200px;
+        align-items: flex-start;
+        .sidebar-item {
+            @include flex(row, flex-start, center);
+            gap: 10px;
+            width: 100%;
+            cursor: pointer;
+            &.sidebar-icon {
+                @extend %sidebar-icon;
+            }
+            > span {
+                display: inline-block;
+            }
+            &.active {
+                background-color: $primary-color;
+                > .sidebar-icon {
+                    color: $white-color;
+                }
+            }
+        }
+        .sidebar-items {
+            align-items: flex-start;
+            width: 100%;
+        }
+    }
+
+    &-items {
+        @include flex(column, center, center);
+        gap: 20px;
+    }
+
+    &-logout {
+        margin-top: 80px;
+    }
 }

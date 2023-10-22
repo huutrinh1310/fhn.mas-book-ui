@@ -9,6 +9,8 @@ export default function useAuth() {
     isLoading: false,
     logIn: () => {},
     register: () => {},
-    logOut: () => {},
+    logOut: () => {
+      console.log("logOut");
+    },
   };
 }
