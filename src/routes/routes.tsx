@@ -1,7 +1,9 @@
 import { createBrowserRouter } from "react-router-dom";
-import HomePage from "@/pages/Home";
-import BookPage from "@/pages/Book";
 import RootLayout from "@/components/layout/RootLayout";
+import HomePage from "@/pages/home";
+import BookPage from "@/pages/books";
+import UserPage from "@/pages/user";
+import SettingPage from "@/pages/settings";
 
 const routes = createBrowserRouter([
   {
@@ -15,6 +17,18 @@ const routes = createBrowserRouter([
       {
         path: "book",
         element: <BookPage />,
+      },
+      {
+        path: "user",
+        element: <UserPage />,
+      },
+      {
+        path: "help",
+        element: <UserPage />,
+      },
+      {
+        path: "settings",
+        element: <SettingPage />,
       },
     ],
   },

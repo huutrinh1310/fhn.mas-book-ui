@@ -1,7 +1,16 @@
 import routes from "@/routes/routes";
-import { RouterProvider } from "react-router-dom";
+import { RouterProvider, useNavigate } from "react-router-dom";
+import { useAppSelector } from "./redux/store";
+import BUILoading from "./components/shared/loading";
+
 function App() {
-  return <RouterProvider router={routes} />;
+  const { loading } = useAppSelector((state) => state.globalStyles);
+  return (
+    <>
+      {loading && <BUILoading />}
+      <RouterProvider router={routes} />
+    </>
+  );
 }
 
 export default App;
