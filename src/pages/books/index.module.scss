@@ -1,0 +1,19 @@
+@import "@/styles/variables";
+@import "@/styles/mixins";
+.bs-books {
+    @include flex(column, center, flex-start);
+    gap: 40px;
+    width: 100%;
+
+    &__banner {
+        @include flex(column, center, flex-start);
+        gap: 10px;
+        &--title {
+            @include font(30px, 700, 1.5);
+            color: $dark-color;
+            > span {
+                color: $primary-color;
+            }
+        }
+    }
+}
