@@ -20,4 +20,5 @@ module.exports = {
     '@typescript-eslint/ban-types': 'off',
     "react-hooks/rules-of-hooks": "warn",
   },
+  extends: ["react-app", "react-app/jest"],
 };
