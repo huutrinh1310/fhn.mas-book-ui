@@ -1,7 +1,13 @@
-* {
-    margin: 0;
+*,
+*::before,
+*::after {
     padding: 0;
+    margin: 0;
     box-sizing: border-box;
+}
+
+:root {
+    scroll-behavior: smooth;
 }
 
 html {
@@ -16,6 +22,7 @@ body {
     color: $dark-color;
     font-weight: 400;
     background-color: $white-color;
+    scroll-behavior: smooth;
 }
 
 main {

@@ -1,5 +1,6 @@
 import React from "react";
 import styles from "./index.module.scss";
+import SearchLoading from "../loading/SearchLoading";
 
 export interface IButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement> {
@@ -9,10 +10,14 @@ export interface IButtonProps
   sm?: boolean;
   md?: boolean;
   lg?: boolean;
+  loading?: boolean;
 }
 
 const Button = React.forwardRef<HTMLButtonElement, IButtonProps>(
-  ({ className, primary, secondary, tertiary, sm, md, lg, ...props }, ref) => {
+  (
+    { className, loading, primary, secondary, tertiary, sm, md, lg, ...props },
+    ref
+  ) => {
     const classnames = [
       styles["btn"],
       styles["btn-normal"],
@@ -26,9 +31,12 @@ const Button = React.forwardRef<HTMLButtonElement, IButtonProps>(
     ].join(" ");
 
     return (
-      <button className={classnames} ref={ref} {...props}>
-        {props.children}
-      </button>
+      <>
+        <button className={classnames} ref={ref} {...props}>
+          {props.children}
+          {loading && <SearchLoading className={styles["btn-loading"]} />}
+        </button>
+      </>
     );
   }
 );

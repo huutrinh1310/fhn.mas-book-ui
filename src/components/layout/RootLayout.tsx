@@ -2,7 +2,12 @@ import * as React from "react";
 import Header from "./header";
 import PageContent from "./page-content";
 import Sidebar from "./sidebar";
-import { Outlet, useSearchParams } from "react-router-dom";
+import {
+  NavLink,
+  Outlet,
+  useNavigation,
+  useSearchParams,
+} from "react-router-dom";
 import styles from "./index.module.scss";
 import {
   BookIcon,
@@ -13,9 +18,9 @@ import {
   WrenchIcon,
 } from "@/utils/icon";
 import SidebarItem from "./sidebar/SidebarItem";
-import Button from "../shared/button";
 import IconComponent from "../shared/icon";
 import useAuth from "@/hooks/useAuth";
+import BUILoading from "../shared/loading";
 
 type SidebarItem = {
   icon: React.ReactNode;
@@ -56,6 +61,7 @@ const slidebarItems: SidebarItem[] = [
 export default function RootLayout() {
   const searchParams = useSearchParams();
   const { logOut } = useAuth();
+  const navigation = useNavigation();
 
   React.useEffect(() => {
     slidebarItems.forEach((item) => {
@@ -67,6 +73,7 @@ export default function RootLayout() {
 
   return (
     <React.Fragment>
+      {navigation.state === "loading" && <BUILoading />}
       <div className={styles.pageContent}>
         <Sidebar>
           {slidebarItems.map((item, index) => (
@@ -80,13 +87,13 @@ export default function RootLayout() {
           <li
             className={`${styles["sidebar-item"]} ${styles["sidebar-logout"]}`}
           >
-            <Button className={styles["sidebar-item"]} onClick={logOut}>
+            <NavLink to={"/logout"} className={styles["sidebar-item"]}>
               <IconComponent
                 children={<SignOutIcon width={24} height={24} />}
                 className={styles["sidebar-icon"]}
               />
               <span>Sign Out</span>
-            </Button>
+            </NavLink>
           </li>
         </Sidebar>
         <section className={styles.pageContentRight}>

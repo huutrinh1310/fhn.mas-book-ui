@@ -9,7 +9,15 @@
     align-items: center;
     border-radius: 10px;
     letter-spacing: 0.1px;
+    position: relative;
 
+    &-loading {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        border-top-color: $white-color;
+        border-bottom-color: $white-color;
+    }
     &.btn-normal {
         padding: 12px 30px;
         @include font(16px, 500, $lh-base);
