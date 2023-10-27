@@ -1,4 +1,4 @@
-import InputElement from "@/components/shared/inputElement";
+import InputElement from "@/components/shared/input-element";
 import styles from "./index.module.scss";
 import IconComponent from "@/components/shared/icon";
 import { NotifyIcon } from "@/utils/icon";

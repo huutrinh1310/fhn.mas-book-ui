@@ -17,6 +17,7 @@
     @include font(18px, 700, 1.5);
     text-transform: uppercase;
     padding: 10px 0;
+    color: $dark-color;
 }
 .sidebar {
     @include flex(column, flex-start, center);
@@ -27,6 +28,9 @@
     padding: 18px 10px;
     gap: 20px;
     background-color: $white-color;
+    position: sticky;
+    top: 0;
+    height: 100vh;
 
     &-item {
         @include flex(row, center, center);
