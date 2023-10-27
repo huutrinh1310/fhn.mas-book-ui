@@ -1,0 +1,40 @@
+@import "@/styles/mixins";
+@import "@/styles/variables";
+@import "@/styles/typography";
+
+.form {
+    width: 100%;
+    @include flex(column, flex-start, flex-start);
+    gap: 24px;
+    flex: 1 0 0;
+    &-body {
+        width: 100%;
+        @include flex(row, flex-start, flex-start);
+        gap: 40px;
+        flex: 1 0 0;
+    }
+    &-group {
+        @include flex(column, center, start);
+        gap: 10px;
+        flex: 1 0 0;
+        position: relative;
+        &.invalid-error {
+            .form-group__input {
+                border: 1px solid $primary-color;
+            }
+        }
+    }
+    &-action {
+        @include flex(row, flex-start, center);
+        gap: 10px;
+    }
+
+    &-label {
+        color: $dark-color;
+        @extend %normal-text;
+
+        &.invalid-error {
+            color: $primary-color;
+        }
+    }
+}

@@ -2,10 +2,13 @@
 @import "@/styles/mixins";
 @import "@/styles/typography";
 
-.input-element {
+.select-element {
     @extend .body-text;
     color: $dark-color;
     flex: 1 0 0;
+    width: 100%;
+    -webkit-appearance: none;
+    position: relative;
     @include border-radius(10px);
     &.md {
         padding: 10px 16px;
@@ -19,20 +22,23 @@
             color: $primary-color;
             border: 1px solid $primary-color;
         }
-        &:disabled {
-            background-color: $light-color;
-        }
     }
 
     &.primary {
         border: 1px solid $secondary-color;
-        background: $white-color;
+        background-color: $white-color;
+        color: $secondary-color;
         &.invalid-error {
             color: $primary-color;
             border: 1px solid $primary-color;
         }
-        &:disabled {
-            background-color: $light-color;
-        }
+    }
+
+    &-icon {
+        position: absolute;
+        right: 10%;
+        top: 50%;
+        color: $secondary-color;
+        transform: translateX(-50%);
     }
 }

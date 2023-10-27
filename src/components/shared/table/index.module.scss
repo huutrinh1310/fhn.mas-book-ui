@@ -1,0 +1,49 @@
+@import "@/styles/mixins";
+@import "@/styles/variables";
+
+.table {
+    border: transparent;
+    border-collapse: collapse;
+    width: 100%;
+
+    &-header {
+        text-align: left;
+        &-cell {
+            color: $secondary-color;
+            @include font(16px, 400, 1.5);
+            padding: 15px;
+        }
+    }
+
+    &-cell {
+        color: $black-color;
+        @include font(16px, 400, 1.5);
+        padding: 5px 15px;
+
+        &-bold {
+            @include font(16px, 700, 1.5);
+        }
+    }
+
+    &-action {
+        @include flex(row, center, center);
+        gap: 5px;
+        &__icon {
+            @include flex(row, center, center);
+            flex: 1 0 0;
+            @include size(30px, 30px);
+            cursor: pointer;
+
+            &--trash {
+                color: $primary-color;
+            }
+        }
+    }
+}
+
+$n: 6;
+@for $i from 1 through $n {
+    .table-colspan-#{$i} {
+        width: calc(100% / #{$n - $i});
+    }
+}
