@@ -1,5 +1,5 @@
 import routes from "@/routes/routes";
-import { RouterProvider, useNavigate } from "react-router-dom";
+import { RouterProvider } from "react-router-dom";
 import { useAppSelector } from "./redux/store";
 import BUILoading from "./components/shared/loading";
 
