@@ -1,0 +1,14 @@
+.content {
+	&-action {
+		&-icon {
+			rotate: 180deg;
+			position: fixed;
+			padding: 1rem;
+			bottom: 40px;
+			right: 40px;
+			text-align: center;
+			color: black;
+			border-radius: 50%;
+		}
+	}
+}

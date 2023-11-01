@@ -1,6 +1,15 @@
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap");
 
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 @import "variables";
 @import "reboot";
 @import "mixins";
 @import "typography";
+
+.no-divider-card .ant-card-head,
+.no-divider-card .ant-card-body {
+  border-bottom: none;
+}
+

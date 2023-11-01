@@ -1,0 +1,22 @@
+.ant-card > .ant-card-head {
+	border-bottom: 1px solid #d9d9d9;
+	padding: 10px;
+	margin: 0 24px;
+}
+.ant-card {
+	margin-bottom: 30px;
+	border-radius: 20px;
+	border: 1px solid #9d9d9d;
+}
+
+.heart-icon {
+    color: red;
+    fill: red;
+}
+
+.icon-action{
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}

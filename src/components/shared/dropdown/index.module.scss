@@ -1,0 +1,37 @@
+@import '@/styles/variables';
+
+.dropdown{
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    border-radius: 10px;
+
+    &-main{
+        color: $primary-6;
+        background-color: $primary-1;
+    }
+
+    &-normal {
+        padding: 5px 12px;
+
+    }
+
+    &-secondary {
+        color: $primary-1;
+        background-color: $primary-6;
+    }
+
+    &:hover {
+        color: $gray-11;
+        background-color: $primary-1;
+    }
+}
+
+.dropdown-item {
+   font-size: 14px !important;
+    &:hover {
+        color: $gray-11 !important;
+        background-color: $primary-1;
+    }
+  
+}
