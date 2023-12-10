@@ -1,8 +1,10 @@
-import IconComponent from "@/components/shared/icon";
+// import IconComponent from "@/components/shared/icon";
 import * as React from "react";
 import styles from "./index.module.scss";
 
 import { NavLink } from "react-router-dom";
+import IconSidebar from "@/components/shared/icon-sidebar";
+import { ListItem, Typography } from "@mui/material";
 
 export interface ISidebarItemProps {
   icon: React.ReactNode;
@@ -12,7 +14,15 @@ export interface ISidebarItemProps {
 
 export default function SidebarItem({ icon, label, link }: ISidebarItemProps) {
   return (
-    <li className={styles["sidebar-item"]}>
+    <ListItem
+      sx={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        gap: "10px",
+        cursor: "pointer",
+      }}
+    >
       <NavLink
         to={link}
         className={({ isActive }) => {
@@ -22,10 +32,17 @@ export default function SidebarItem({ icon, label, link }: ISidebarItemProps) {
             return styles["sidebar-item"];
           }
         }}
-      >
-        <IconComponent children={icon} className={styles["sidebar-icon"]} />
-        <span>{label}</span>
-      </NavLink>
-    </li>
+        children={({ isActive }) => {
+          return (
+            <>
+              <IconSidebar className={styles["sidebar-icon"]} active={isActive}>
+                {icon}
+              </IconSidebar>
+              <Typography component="span">{label}</Typography>
+            </>
+          );
+        }}
+      />
+    </ListItem>
   );
 }

@@ -1,12 +1,12 @@
 import useBook from "@/hooks/useBook";
 import BookList from "./components/list";
-import styles from "./index.module.scss";
 import BookForm from "./components/form";
 import { useCallback, useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "@/redux/store";
 import Swal from "sweetalert2";
 import { setError } from "@/redux/global-state/actions";
+import { Box, Typography, useTheme } from "@mui/material";
 
 export default function BookPage() {
   const dispatch = useAppDispatch();
@@ -14,6 +14,7 @@ export default function BookPage() {
   const [searchParams] = useSearchParams("");
   const { error } = useAppSelector((state) => state.globalStyles);
   const navigate = useNavigate();
+  const theme = useTheme();
 
   const showErrorMessage = useCallback(() => {
     Swal.fire({
@@ -42,17 +43,44 @@ export default function BookPage() {
   }, [searchParams, error]);
 
   return (
-    <div className={styles["bs-books"]}>
-      <div className={styles["bs-books__banner"]}>
-        <h1 className={styles["bs-books__banner--title"]}>
-          Welcome to My <span>Bookstore!</span>
-        </h1>
-        <p className={styles["bs-books__banner--datetime"]}>
+    <Box
+      display={"flex"}
+      flexDirection={"column"}
+      justifyContent={"center"}
+      alignItems={"flex-start"}
+      gap={"40px"}
+      width={"100%"}
+    >
+      <Box
+        display={"flex"}
+        flexDirection={"column"}
+        justifyContent={"center"}
+        alignItems={"flex-start"}
+        gap={"10px"}
+      >
+        <Typography
+          variant={"h3"}
+          component={"h3"}
+          color={theme.palette.secondary.dark}
+        >
+          Welcome to My{" "}
+          <Typography
+            variant="h3"
+            component={"span"}
+            color={theme.palette.primary.main}
+            sx={{
+              display: "inline",
+            }}
+          >
+            Bookstore!
+          </Typography>
+        </Typography>
+        <Typography variant={"subtitle1"}>
           Oct 19, 2023 | Thursday, 11:00 AM
-        </p>
-      </div>
+        </Typography>
+      </Box>
       <BookForm />
       <BookList data={books} />
-    </div>
+    </Box>
   );
 }
