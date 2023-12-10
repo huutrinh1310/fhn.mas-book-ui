@@ -5,6 +5,10 @@
     padding: 18px 15px;
     @include flex(row, space-between, center);
     align-self: stretch;
+    position: sticky;
+    top: 0;
+    background: white;
+    z-index: 1000;
 }
 
 .input {
@@ -19,22 +23,21 @@
 .users {
     @include flex(row, center, center);
     gap: 40px;
-    margin-left: 10px;
     .icon {
         @include size(25px, 25px);
         color: $secondary-color;
         position: relative;
-        &::before {
-            content: "3";
-            position: absolute;
-            top: -8px;
-            right: -8px;
-            @include size(20px, 20px);
-            color: $white-color;
-            background-color: $primary-color;
-            @include border-radius(50%);
-            @include flex(row, center, center);
-        }
+        // &::before {
+        //     content: "3";
+        //     position: absolute;
+        //     top: -8px;
+        //     right: -8px;
+        //     @include size(20px, 20px);
+        //     color: $white-color;
+        //     background-color: $primary-color;
+        //     @include border-radius(50%);
+        //     @include flex(row, center, center);
+        // }
     }
 
     &__information {

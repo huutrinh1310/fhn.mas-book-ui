@@ -2,11 +2,18 @@
 @import "@/styles/variables";
 
 .content {
-    flex: 1;
     @include border-radius(30px);
     @include flex(column, unset, flex-start);
     align-self: stretch;
     padding: 40px 50px;
     gap: 30px;
     background-color: $light-color;
+    height: calc(100vh - 80px - 20px);
+    > div {
+        max-height: 100%;
+        overflow: auto;
+        justify-content: unset;
+        margin-right: -25px;
+        padding-right: 25px;
+    }
 }

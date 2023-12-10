@@ -1,5 +1,5 @@
 import * as React from "react";
-import styles from "./index.module.scss";
+import { Box, styled } from "@mui/material";
 
 export interface IIconComponentProps {
   children?: React.ReactNode;
@@ -7,20 +7,16 @@ export interface IIconComponentProps {
   className?: string;
   onClick?: () => void;
 }
+const IconComponent = styled(Box, {
+  shouldForwardProp: (prop) => prop !== "active",
+})<IIconComponentProps>(({ active, theme }) => ({
+  color: theme.palette.secondary.main,
+  backgroundColor: theme.palette.common.white,
+  cursor: "pointer",
+  ...(active && {
+    color: theme.palette.primary.light,
+    backgroundColor: theme.palette.primary.main,
+  }),
+}));
 
-export default function IconComponent({
-  children,
-  active,
-  className,
-  onClick,
-}: IIconComponentProps) {
-  const classnames = [styles["icon"], active && "active", className]
-    .filter(Boolean)
-    .join(" ");
-
-  return (
-    <div className={classnames} onClick={onClick}>
-      {children}
-    </div>
-  );
-}
+export default IconComponent;

@@ -1,24 +1,19 @@
 import * as React from "react";
 
-import { Card, CardContent, CardTitle } from "@/components/shared/card";
+import { Card, CardContent } from "@/components/shared/card";
 import { useForm } from "react-hook-form";
 import { bookSchema } from "@/utils/schema";
 import { yupResolver } from "@hookform/resolvers/yup";
-import {
-  Form,
-  FormAction,
-  FormGroup,
-  FormLabel,
-  Formbody,
-} from "@/components/shared/form";
-import InputElement from "@/components/shared/input-element";
+import { FormAction, Formbody } from "@/components/shared/form";
 
 import styles from "./index.module.scss";
 import stylesForm from "@/components/shared/form/index.module.scss";
 
-import Button from "@/components/shared/button";
+import { Box, Button as ButtonMui, InputBase, Typography } from "@mui/material";
 import { useSearchParams } from "react-router-dom";
 import useBook from "@/hooks/useBook";
+import { FormGroup, FormLabel } from "@mui/material";
+import { theme } from "@/theme";
 
 export interface IBookFormValues {
   code: string;
@@ -86,104 +81,118 @@ export default function BookForm() {
 
   return (
     <Card>
-      <CardTitle>Book Information</CardTitle>
+      <Typography variant={"h4"}>Book Information</Typography>
       <CardContent>
-        <Form onSubmit={form.handleSubmit(onSubmit)}>
+        <Box component={"form"} onSubmit={form.handleSubmit(onSubmit)}>
           <Formbody>
             <FormGroup
+              sx={{ flex: "1 0 0" }}
               className={
                 errors.code?.message ? stylesForm["invalid-error"] : ""
               }
             >
               <FormLabel htmlFor="code">Book Code *</FormLabel>
-              <InputElement
+              <InputBase
                 type="text"
                 id="code"
                 itemRef="code"
                 disabled={isEdit}
                 {...form.register("code")}
-                primary
                 placeholder="Enter book code"
                 className={`${styles["form-group__input"]} ${stylesForm["form-group__input"]}`}
+                itemType={errors.code?.message ? "error" : "secondary"}
               />
-              <span className={styles["form-group__message"]}>
+              <Typography
+                variant="caption"
+                component="span"
+                sx={{ color: theme.palette.error.main }}
+              >
                 {errors.code?.message}
-              </span>
+              </Typography>
             </FormGroup>
 
             <FormGroup
+              sx={{ flex: "1 0 0" }}
               className={
                 errors.title?.message ? stylesForm["invalid-error"] : ""
               }
             >
               <FormLabel htmlFor="title">Book Name *</FormLabel>
-              <InputElement
+              <InputBase
                 type="text"
                 id="title"
                 {...form.register("title")}
-                primary
                 placeholder="Enter book name"
                 className={`${styles["form-group__input"]} ${stylesForm["form-group__input"]}`}
+                itemType={errors.title?.message ? "error" : "secondary"}
               />
-              <span className={styles["form-group__message"]}>
+              <Typography
+                variant="caption"
+                component="span"
+                sx={{ color: theme.palette.error.main }}
+              >
                 {errors.title?.message}
-              </span>
+              </Typography>
             </FormGroup>
 
             <FormGroup
+              sx={{ flex: "1 0 0" }}
               className={
                 errors.author?.message ? stylesForm["invalid-error"] : ""
               }
             >
               <FormLabel htmlFor="author">Author *</FormLabel>
-              <InputElement
+              <InputBase
                 type="text"
                 id="author"
                 {...form.register("author")}
-                primary
                 placeholder="Enter author name"
                 className={`${styles["form-group__input"]} ${stylesForm["form-group__input"]}`}
+                itemType={errors.author?.message ? "error" : "secondary"}
               />
-              <span className={styles["form-group__message"]}>
+              <Typography
+                variant="caption"
+                component="span"
+                sx={{ color: theme.palette.error.main }}
+              >
                 {errors.author?.message}
-              </span>
+              </Typography>
             </FormGroup>
 
             <FormGroup
+              sx={{ flex: "1 0 0" }}
               className={
                 errors.price?.message ? stylesForm["invalid-error"] : ""
               }
             >
               <FormLabel htmlFor="price">Price *</FormLabel>
-              <InputElement
+              <InputBase
                 type="type"
                 id="price"
                 {...form.register("price")}
                 aria-invalid={errors.price ? "true" : "false"}
-                primary
                 placeholder="Enter book price"
                 className={`${styles["form-group__input"]} ${stylesForm["form-group__input"]}`}
+                itemType={errors.price?.message ? "error" : "secondary"}
               />
-              <span className={styles["form-group__message"]}>
+              <Typography
+                variant="caption"
+                component="span"
+                sx={{ color: theme.palette.error.main }}
+              >
                 {errors.price?.message}
-              </span>
+              </Typography>
             </FormGroup>
           </Formbody>
           <FormAction>
-            <Button primary type="submit" disabled={loading} loading={loading}>
-              {loading ? "Submitting" : "Save changes"}
-            </Button>
-            <Button
-              tertiary
-              type="button"
-              onClick={() => {
-                resetForm();
-              }}
-            >
+            <ButtonMui variant="contained" type="submit" disabled={loading}>
+              Save changes
+            </ButtonMui>
+            <ButtonMui variant="text" type="button" onClick={resetForm}>
               Cancel
-            </Button>
+            </ButtonMui>
           </FormAction>
-        </Form>
+        </Box>
       </CardContent>
     </Card>
   );

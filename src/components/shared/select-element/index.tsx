@@ -1,6 +1,6 @@
 import * as React from "react";
 import styles from "./index.module.scss";
-import { ChveronDownIcon } from "@/utils/icon";
+// import { ChveronDownIcon } from "@/utils/icon";
 
 export interface ISelectElementProps
   extends React.SelectHTMLAttributes<HTMLSelectElement> {

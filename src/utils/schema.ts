@@ -4,8 +4,8 @@ import * as yup from 'yup';
 const REQUIRED_MSG = 'This field is required';
 const INVALID_MSG = 'Invalid value';
 const POSITIVE_NUMBER_MSG = 'The value must be a positive number';
-const BOOK_CODE_LENGTH = 5;
-const BOOK_CODE_REGEX = new RegExp(`^B[0-9]{${BOOK_CODE_LENGTH}}$`);
+// const BOOK_CODE_LENGTH = 5;
+// const BOOK_CODE_REGEX = new RegExp(`^B[0-9]{${BOOK_CODE_LENGTH}}$`);
 
 
 export const bookSchema: yup.ObjectSchema<IBookFormValues> = yup.object().shape({

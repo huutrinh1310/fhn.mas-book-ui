@@ -3,10 +3,6 @@
 @import "@/styles/typography";
 
 .form {
-    width: 100%;
-    @include flex(column, flex-start, flex-start);
-    gap: 24px;
-    flex: 1 0 0;
     &-body {
         width: 100%;
         @include flex(row, flex-start, flex-start);
@@ -27,6 +23,7 @@
     &-action {
         @include flex(row, flex-start, center);
         gap: 10px;
+        margin-top: 24px;
     }
 
     &-label {

@@ -19,7 +19,6 @@
     @include flex(column, center, flex-start);
     @include border-radius(30px);
     flex: 1;
-    min-height: 100vh;
     padding-right: 30px;
 }
 

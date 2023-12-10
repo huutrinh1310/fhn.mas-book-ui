@@ -1,7 +1,3 @@
-import * as React from "react";
-
-export interface IUserPageProps {}
-
-export default function UserPage(props: IUserPageProps) {
-  return <div>Hello userPage day</div>;
+export default function UserPage() {
+  return <div>Hello User Page day</div>;
 }

@@ -1,28 +1,66 @@
-import { Card, CardContent, CardTitle } from "@/components/shared/card";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHeader,
-  TableHeaderCell,
-  TableRow,
-} from "@/components/shared/table";
+import { Card, CardContent } from "@/components/shared/card";
 import { Book } from "@/types/book.model";
-import { memo } from "react";
+import { memo, useState } from "react";
 
-import styleTable from "@/components/shared/table/index.module.scss";
-import IconComponent from "@/components/shared/icon";
-import { EditIcon, TrashIcon } from "@/utils/icon";
-import { showConfirmDeleteButton } from "@/library/sweet-alert";
 import { useNavigate } from "react-router-dom";
 import useBook from "@/hooks/useBook";
-import { validatePrice } from "@/utils/validator";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import { EditIcon, TrashIcon } from "@/utils/icon";
+import { Typography, useTheme } from "@mui/material";
+import { showConfirmDeleteButton } from "@/library/sweet-alert";
+import IconComponent from "@/components/shared/icon";
 
 export interface IBookListProps {
   data: Book[];
 }
 
+interface Column {
+  id: "code" | "title" | "author" | "price";
+  label: string;
+  width?: number;
+  minWidth?: number;
+  align?: "right";
+  format?: (value: number) => string;
+}
+const columns: Column[] = [
+  {
+    id: "code",
+    label: "Book Code",
+    minWidth: 100,
+    width: 150,
+    format: (value: number) => value.toLocaleString("en-US"),
+  },
+  {
+    id: "title",
+    label: "Book Name",
+    minWidth: 300,
+    format: (value: number) => value.toLocaleString("en-US"),
+  },
+  {
+    id: "author",
+    label: "Author",
+    minWidth: 100,
+    width: 220,
+    format: (value: number) => value.toLocaleString("en-US"),
+  },
+  {
+    id: "price",
+    label: "Price",
+    minWidth: 100,
+    width: 180,
+    format: (value: number) => value.toFixed(2),
+  },
+];
+
 function BookList({ data }: IBookListProps) {
+  const theme = useTheme();
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+
   const navigation = useNavigate();
 
   const handleEdit = (id: number) => {
@@ -34,89 +72,99 @@ function BookList({ data }: IBookListProps) {
 
   return (
     <Card>
-      <CardTitle>Book List</CardTitle>
+      <Typography variant={"h4"}>Book list</Typography>
       <CardContent>
         <Table>
-          <TableHeader>
+          <TableHead>
             <TableRow>
-              <TableHeaderCell className={styleTable["table-colspan-1"]}>
-                Book Code
-              </TableHeaderCell>
-              <TableHeaderCell className={styleTable["table-colspan-3"]}>
-                Book Name
-              </TableHeaderCell>
-              <TableHeaderCell className={styleTable["table-colspan-1"]}>
-                Author
-              </TableHeaderCell>
-              <TableHeaderCell className={styleTable["table-colspan-1"]}>
-                Price
-              </TableHeaderCell>
-              <TableHeaderCell className={styleTable["table-colspan-1"]}>
+              {columns.map((column) => (
+                <TableCell
+                  key={column.id}
+                  align={column.align}
+                  style={{
+                    top: 57,
+                    minWidth: column.minWidth,
+                    width: column.width,
+                  }}
+                >
+                  {column.label}
+                </TableCell>
+              ))}
+              <TableCell
+                align={"center"}
+                style={{ top: 57, minWidth: 50, width: 95 }}
+              >
                 Action
-              </TableHeaderCell>
+              </TableCell>
             </TableRow>
-          </TableHeader>
+          </TableHead>
           <TableBody>
-            {data ? (
-              data.map((book, index) => (
-                <TableRow key={index}>
-                  <TableCell className={styleTable["table-colspan-1"]}>
-                    {book.code}
-                  </TableCell>
-                  <TableCell
-                    className={`${styleTable["table-colspan-3"]} ${styleTable["table-cell-bold"]}`}
-                  >
-                    {book.title}
-                  </TableCell>
-                  <TableCell className={styleTable["table-colspan-1"]}>
-                    {book.author}
-                  </TableCell>
-                  <TableCell className={styleTable["table-colspan-1"]}>
-                    {"$" + validatePrice(book.price)}
-                  </TableCell>
-                  <TableCell
-                    className={`${styleTable["table-colspan- 1"]} ${styleTable["table-action"]}`}
-                  >
-                    <IconComponent
-                      children={
-                        <EditIcon
-                          width={16}
-                          height={16}
-                          className={`${styleTable["table-action__icon--edit"]}`}
-                        />
+            {data
+              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+              .map((row) => {
+                return (
+                  <TableRow key={row.id} hover role="checkbox" tabIndex={-1}>
+                    {columns.map((column) => {
+                      const value = row[column.id];
+                      if (column.id === "title") {
+                        return (
+                          <TableCell key={column.id} align={column.align}>
+                            <Typography variant={"h6"}>{value}</Typography>
+                          </TableCell>
+                        );
                       }
-                      onClick={() => {
-                        handleEdit(book.id!);
-                      }}
-                      className={styleTable["table-action__icon"]}
-                    />
-                    <IconComponent
-                      children={
-                        <TrashIcon
-                          width={16}
-                          height={16}
-                          className={`${styleTable["table-action__icon--trash"]}`}
-                        />
-                      }
-                      onClick={() =>
-                        showConfirmDeleteButton(
-                          "Do you want to delete",
-                          book.title + "?",
-                          () => {
-                            deleteBook(book.id!);
-                          }
-                        )
-                      }
-                      className={styleTable["table-action__icon"]}
-                    />
-                  </TableCell>
-                </TableRow>
-              ))
-            ) : (
-              <TableRow>
-                <TableCell>No data found.</TableCell>
-              </TableRow>
-            )}
+
+                      return (
+                        <TableCell key={column.id} align={column.align}>
+                          {column.format &&
+                          column.id === "price" &&
+                          typeof value === "number"
+                            ? "$" + column.format(value)
+                            : value}
+                        </TableCell>
+                      );
+                    })}
+                    <TableCell align={"center"}>
+                      <IconComponent
+                        onClick={() => handleEdit(row.id!)}
+                        sx={{
+                          backgroundColor: "transparent",
+                          width: 30,
+                          height: 30,
+                          color: theme.palette.common.black,
+                        }}
+                        display={"inline-flex"}
+                        alignItems={"center"}
+                        justifyContent={"center"}
+                      >
+                        <EditIcon width={16} height={16} />
+                      </IconComponent>
+                      <IconComponent
+                        onClick={() =>
+                          showConfirmDeleteButton(
+                            "Do you want to delete",
+                            row.title + "?",
+                            () => {
+                              deleteBook(row.id!);
+                            }
+                          )
+                        }
+                        sx={{
+                          backgroundColor: "transparent",
+                          width: 30,
+                          height: 30,
+                          color: theme.palette.primary.main,
+                        }}
+                        display={"inline-flex"}
+                        alignItems={"center"}
+                        justifyContent={"center"}
+                      >
+                        <TrashIcon width={16} height={16} />
+                      </IconComponent>
+                    </TableCell>
+                  </TableRow>
+                );
+              })}
           </TableBody>
         </Table>
       </CardContent>
