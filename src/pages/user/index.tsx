@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { Box } from "@mui/material";
 import AgTable from "./component/datatable";
 import "ag-grid-enterprise";
@@ -20,4 +21,8 @@ export default function UserPage() {
       <AgTable />
     </Box>
   );
+=======
+export default function UserPage() {
+  return <div>Hello User Page day</div>;
+>>>>>>> 816f06cbb80556c477acd7c1fae4279a863c27ff
 }
