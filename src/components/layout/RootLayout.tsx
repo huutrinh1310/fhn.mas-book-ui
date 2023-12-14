@@ -18,9 +18,9 @@ import {
   WrenchIcon,
 } from "@/utils/icon";
 import SidebarItem from "./sidebar/SidebarItem";
-import IconComponent from "../shared/icon";
-import useAuth from "@/hooks/useAuth";
 import BUILoading from "../shared/loading";
+import { Box, Link, ListItem, Typography } from "@mui/material";
+import IconSidebar from "../shared/icon-sidebar";
 
 type SidebarItem = {
   icon: React.ReactNode;
@@ -60,7 +60,7 @@ const slidebarItems: SidebarItem[] = [
 
 export default function RootLayout() {
   const searchParams = useSearchParams();
-  const { logOut } = useAuth();
+  // const { logOut } = useAuth();
   const navigation = useNavigation();
 
   React.useEffect(() => {
@@ -74,7 +74,11 @@ export default function RootLayout() {
   return (
     <React.Fragment>
       {navigation.state === "loading" && <BUILoading />}
-      <div className={styles.pageContent}>
+      <Box
+        display={"flex"}
+        justifyContent={"center"}
+        alignContent={"flex-start"}
+      >
         <Sidebar>
           {slidebarItems.map((item, index) => (
             <SidebarItem
@@ -84,25 +88,40 @@ export default function RootLayout() {
               link={item.path}
             />
           ))}
-          <li
-            className={`${styles["sidebar-item"]} ${styles["sidebar-logout"]}`}
+          <ListItem
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              gap: "10px",
+              cursor: "pointer",
+              mt: "80px",
+            }}
           >
-            <NavLink to={"/logout"} className={styles["sidebar-item"]}>
-              <IconComponent
+            <Link href={"/logout"} className={styles["sidebar-item"]}>
+              <IconSidebar
                 children={<SignOutIcon width={24} height={24} />}
-                className={styles["sidebar-icon"]}
+                // className={styles["sidebar-icon"]}
               />
-              <span>Sign Out</span>
-            </NavLink>
-          </li>
+              <Typography component="span">Sign Out</Typography>
+            </Link>
+          </ListItem>
         </Sidebar>
-        <section className={styles.pageContentRight}>
+        <Box
+          component={"section"}
+          display={"flex"}
+          justifyContent={"flex-start"}
+          alignItems={"flex-start"}
+          borderRadius={"30px"}
+          flex={1}
+          flexDirection={"column"}
+        >
           <Header />
           <PageContent>
             <Outlet />
           </PageContent>
-        </section>
-      </div>
+        </Box>
+      </Box>
     </React.Fragment>
   );
 }

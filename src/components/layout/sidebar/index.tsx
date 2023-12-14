@@ -1,5 +1,6 @@
-import { NavLink } from "react-router-dom";
+import { theme } from "@/theme";
 import styles from "./index.module.scss";
+import { Box, Link } from "@mui/material";
 
 export interface ISidebarProps {
   children?: React.ReactNode;
@@ -12,11 +13,30 @@ export default function Sidebar({ children, open }: ISidebarProps) {
     .join(" ");
 
   return (
-    <aside className={classnames}>
-      <NavLink to="/" className={styles.logo}>
+    <Box component={"aside"} className={classnames}>
+      <Link
+        href="/"
+        textAlign={"center"}
+        display={"inline-block"}
+        alignSelf={"center"}
+        fontSize={"18px"}
+        fontWeight={700}
+        lineHeight={1.5}
+        textTransform={"uppercase"}
+        paddingY={"10px"}
+        color={theme.palette.secondary.dark}
+      >
         Logo
-      </NavLink>
-      <ul className={styles["sidebar-items"]}>{children}</ul>
-    </aside>
+      </Link>
+      <Box
+        component={"ul"}
+        display={"flex"}
+        flexDirection={"column"}
+        alignItems={"center"}
+        justifyContent={"center"}
+      >
+        {children}
+      </Box>
+    </Box>
   );
 }

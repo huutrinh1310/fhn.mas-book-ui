@@ -1,9 +1,10 @@
+import { Box } from "@mui/material";
 import styles from "./index.module.scss";
 
 export default function BUILoading() {
   return (
-    <div className={styles["loading-background"]}>
-      <div className={styles.loading}></div>
-    </div>
+    <Box className={styles["loading-background"]}>
+      <Box className={styles.loading}></Box>
+    </Box>
   );
 }
