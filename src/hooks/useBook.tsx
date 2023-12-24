@@ -4,6 +4,8 @@ import { Book } from "@/types/book.model";
 
 export default function useBook() {
   const { books, book } = useAppSelector((state) => state.books);
+  const loading = useAppSelector((state) => state.globalStyles.loading);
+  const error = useAppSelector((state) => state.globalStyles.error);
 
   const dispatch = useAppDispatch();
 
@@ -34,5 +36,7 @@ export default function useBook() {
     updateBook,
     deleteBook,
     book,
+    loading,
+    error,
   };
 }

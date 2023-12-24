@@ -1,6 +1,6 @@
 import { Card, CardContent } from "@/components/shared/card";
 import { Book } from "@/types/book.model";
-import { memo, useState } from "react";
+import { memo, useCallback, useEffect, useRef, useState } from "react";
 
 import { useNavigate } from "react-router-dom";
 import useBook from "@/hooks/useBook";
@@ -13,9 +13,11 @@ import { EditIcon, TrashIcon } from "@/utils/icon";
 import { Typography, useTheme } from "@mui/material";
 import { showConfirmDeleteButton } from "@/library/sweet-alert";
 import IconComponent from "@/components/shared/icon";
+import { useInfiniteQuery } from "@tanstack/react-query";
 
 export interface IBookListProps {
   data: Book[];
+  entry: IntersectionObserverEntry;
 }
 
 interface Column {
@@ -56,10 +58,8 @@ const columns: Column[] = [
   },
 ];
 
-function BookList({ data }: IBookListProps) {
+function BookList({ data, entry }: IBookListProps) {
   const theme = useTheme();
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
 
   const navigation = useNavigate();
 
@@ -68,54 +68,99 @@ function BookList({ data }: IBookListProps) {
     window.scrollTo(0, 0);
   };
 
-  const { deleteBook } = useBook();
+  const { deleteBook, getBooks } = useBook();
+
+  const fetchBooks = useCallback(
+    async (page: number) => {
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+      await getBooks();
+      return data.slice((page - 1) * 2, page * 2);
+    },
+    [data]
+  );
+
+  const {
+    data: dataBook,
+    fetchNextPage,
+    isFetchingNextPage,
+  } = useInfiniteQuery({
+    queryKey: ["query"],
+    queryFn: async ({ pageParam = 1 }) => {
+      const response = await fetchBooks(pageParam as number);
+      return response;
+    },
+    getNextPageParam: (_, pages) => {
+      return pages.length + 1;
+    },
+    initialPageParam: 1,
+    initialData: {
+      pages: [data.slice(0, 2)],
+      pageParams: [1],
+    },
+  });
+
+  useEffect(() => {
+    if (entry?.isIntersecting) fetchNextPage();
+  }, [entry]);
+
+  const _books = dataBook?.pages.flatMap((page) => page);
 
   return (
-    <Card>
-      <Typography variant={"h4"}>Book list</Typography>
-      <CardContent>
-        <Table>
-          <TableHead>
-            <TableRow>
-              {columns.map((column) => (
+    <>
+      <Card>
+        <Typography variant={"h4"}>Book list</Typography>
+        <CardContent>
+          <Table>
+            <TableHead>
+              <TableRow>
+                {columns.map((column) => (
+                  <TableCell
+                    key={column.id}
+                    align={column.align}
+                    style={{
+                      top: 57,
+                      minWidth: column.minWidth,
+                      width: column.width,
+                    }}
+                  >
+                    {column.label}
+                  </TableCell>
+                ))}
                 <TableCell
-                  key={column.id}
-                  align={column.align}
-                  style={{
-                    top: 57,
-                    minWidth: column.minWidth,
-                    width: column.width,
-                  }}
+                  align={"center"}
+                  style={{ top: 57, minWidth: 50, width: 95 }}
                 >
-                  {column.label}
+                  Action
                 </TableCell>
-              ))}
-              <TableCell
-                align={"center"}
-                style={{ top: 57, minWidth: 50, width: 95 }}
-              >
-                Action
-              </TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {data
-              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((row) => {
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {_books?.map((row, i) => {
                 return (
-                  <TableRow key={row.id} hover role="checkbox" tabIndex={-1}>
+                  <TableRow
+                    key={row.id}
+                    hover
+                    role="checkbox"
+                    tabIndex={-1}
+                  >
                     {columns.map((column) => {
                       const value = row[column.id];
                       if (column.id === "title") {
                         return (
-                          <TableCell key={column.id} align={column.align}>
+                          <TableCell
+                            key={column.id}
+                            align={column.align}
+                          >
                             <Typography variant={"h6"}>{value}</Typography>
                           </TableCell>
                         );
                       }
 
                       return (
-                        <TableCell key={column.id} align={column.align}>
+                        <TableCell
+                          key={column.id}
+                          align={column.align}
+                        >
                           {column.format &&
                           column.id === "price" &&
                           typeof value === "number"
@@ -126,7 +171,11 @@ function BookList({ data }: IBookListProps) {
                     })}
                     <TableCell align={"center"}>
                       <IconComponent
-                        onClick={() => handleEdit(row.id!)}
+                        onClick={() => {
+                          document.body.scrollTop = 0;
+                          document.documentElement.scrollTop = 0;
+                          handleEdit(row.id!);
+                        }}
                         sx={{
                           backgroundColor: "transparent",
                           width: 30,
@@ -137,7 +186,10 @@ function BookList({ data }: IBookListProps) {
                         alignItems={"center"}
                         justifyContent={"center"}
                       >
-                        <EditIcon width={16} height={16} />
+                        <EditIcon
+                          width={16}
+                          height={16}
+                        />
                       </IconComponent>
                       <IconComponent
                         onClick={() =>
@@ -159,16 +211,30 @@ function BookList({ data }: IBookListProps) {
                         alignItems={"center"}
                         justifyContent={"center"}
                       >
-                        <TrashIcon width={16} height={16} />
+                        <TrashIcon
+                          width={16}
+                          height={16}
+                        />
                       </IconComponent>
                     </TableCell>
                   </TableRow>
                 );
               })}
-          </TableBody>
-        </Table>
-      </CardContent>
-    </Card>
+            </TableBody>
+          </Table>
+        </CardContent>
+      </Card>
+      <button
+        onClick={() => fetchNextPage()}
+        disabled={isFetchingNextPage}
+      >
+        {isFetchingNextPage
+          ? "Loading more..."
+          : (dataBook?.pages.length ?? 0) < 3
+          ? "Loadmore"
+          : "Nothing more to load"}
+      </button>
+    </>
   );
 }
 

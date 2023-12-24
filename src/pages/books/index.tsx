@@ -1,20 +1,35 @@
 import useBook from "@/hooks/useBook";
 import BookList from "./components/list";
 import BookForm from "./components/form";
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "@/redux/store";
 import Swal from "sweetalert2";
 import { setError } from "@/redux/global-state/actions";
 import { Box, Typography, useTheme } from "@mui/material";
+import { useInfiniteQuery } from "@tanstack/react-query";
+import { useIntersection } from "@mantine/hooks";
 
 export default function BookPage() {
   const dispatch = useAppDispatch();
   const { books, getBooks } = useBook();
   const [searchParams] = useSearchParams("");
-  const { error } = useAppSelector((state) => state.globalStyles);
+  const { loading, error } = useAppSelector((state) => state.globalStyles);
   const navigate = useNavigate();
   const theme = useTheme();
+
+  useEffect(() => {
+    const fetchBooks = async () => {
+      await getBooks();
+    };
+    fetchBooks();
+    if (error !== null && error !== "" && error?.length > 0) {
+      showErrorMessage();
+    }
+
+    return () => {};
+    //eslint-disable-next-line
+  }, [searchParams, error]);
 
   const showErrorMessage = useCallback(() => {
     Swal.fire({
@@ -29,18 +44,11 @@ export default function BookPage() {
     return () => {};
   }, [error, navigate, dispatch]);
 
-  useEffect(() => {
-    const fetchBooks = async () => {
-      await getBooks();
-    };
-    fetchBooks();
-    if (error !== null && error !== "" && error?.length > 0) {
-      showErrorMessage();
-    }
-
-    return () => {};
-    //eslint-disable-next-line
-  }, [searchParams, error]);
+  const lastBookRef = useRef<HTMLElement>(null);
+  const { ref, entry } = useIntersection({
+    root: lastBookRef.current,
+    threshold: 1,
+  });
 
   return (
     <Box
@@ -80,7 +88,13 @@ export default function BookPage() {
         </Typography>
       </Box>
       <BookForm />
-      <BookList data={books} />
+      {books.length > 0 && (
+        <BookList
+          data={books}
+          entry={entry!}
+        />
+      )}
+      <div ref={ref}> </div>
     </Box>
   );
 }
